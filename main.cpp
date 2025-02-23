@@ -74,15 +74,14 @@ double Activity::calculateCaloriesBurned(string activity, double time){
 void Profile::addToGoals(){
     int choice;
     int addedSteps, addedcalories;
-    
         cout << "how many more steps have you walked today: " ;
         cin >> addedSteps;
         cout << "how many more calories have you consumed today: ";
         cin >> addedcalories;
         walkedSteps += addedSteps;
         eatenCalories += addedcalories;
-        cout << "you are currently " << (walkedSteps/dailyStepGoal)*100 << "% through your daily step goal" << endl;
-         cout << "you are currently " << (eatenCalories/dailyCalorieGoal)*100 << "% through your daily calorie intake goal" << endl;
+        cout << "you are currently " << ((float)walkedSteps/(float)dailyStepGoal)*100 << "% through your daily step goal" << endl;
+        cout << "you are currently " << ((float)eatenCalories/(float)dailyCalorieGoal)*100 << "% through your daily calorie intake goal" << endl;
 }
 
 bool selectProfile(vector<Profile> &profiles, Profile &currentProfile){
@@ -100,7 +99,7 @@ bool selectProfile(vector<Profile> &profiles, Profile &currentProfile){
         for(int i = 0;i< profiles.size();i++){
             if (profiles[i].getName() == name){
                 currentProfile = profiles[i];
-                cout << "you have selected " << profiles[i].getName() << " as your current user" << endl;
+                cout << "you have selected " << currentProfile.getName() << " as your current user" << endl;
                 return true;
             }
         }
@@ -169,11 +168,11 @@ void addActivity(vector<Profile> &profiles, Profile &currentProfile){
 void displayMenu(){
     cout << endl << "please choose one of the following options: \n" ;
         cout << "1. create a new profile\n";
-        cout << "2. select a profile\n";
+        cout << "2. add progress to goals\n";
         cout << "3. add a new activity\n";
         cout << "4. view profile information\n";
         cout << "5. remove profile\n";
-        cout << "6. view all profiles\n";
+        cout << "6. list all profiles\n";
         cout << "7. exit \n";
 }
 

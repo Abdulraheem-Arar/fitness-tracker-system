@@ -56,6 +56,8 @@ private:
     double getHeight() const{return height;};
     int getStepGoal() const{return dailyStepGoal;};
     int getCalorieGoal() const{return dailyCalorieGoal;};
+    int getWalkedSteps() const{return walkedSteps;};
+    int getEatenCalories() const{return eatenCalories;};
 
 
 
