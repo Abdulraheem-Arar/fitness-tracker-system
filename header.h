@@ -18,6 +18,7 @@ class Activity{
 
     Activity(int ID, string type, double duration) : userID(ID), activityType(type), duration(duration), caloriesBurned(calculateCaloriesBurned(type,duration)){};
 
+    int getUserID() const{return userID;};
     string getActivityType() const{return activityType;};
     double getDuration() const{return duration;};
     double getCaloriesBurned() const{return caloriesBurned;};
@@ -46,19 +47,21 @@ private:
 
     public:
     Profile() : id(counter++), name(""), age(0), weight(0), height(0), BMI(0), dailyStepGoal(0), dailyCalorieGoal(0) , walkedSteps(0) , eatenCalories(0) {}
-    Profile(string name, int age, double weight, double height, int stepGoal, int calorieGoal);
-    
+    Profile(string name, int age, double weight, double height, int stepGoal, int calorieGoal,int walkedSteps, int eatenCalories);
+    Profile(int id,string name,int age,double weight, double height, int stepGoal, int calorieGoal, int walkedSteps, int eatenCalories);
+
     // Getters and Setters
     int getID() const {return id;};
     string getName() const {return name;};
     int getAge() const {return age;};
     double getWeight() const{return weight;};
     double getHeight() const{return height;};
+    double getBMI() const {return BMI;};
     int getStepGoal() const{return dailyStepGoal;};
     int getCalorieGoal() const{return dailyCalorieGoal;};
     int getWalkedSteps() const{return walkedSteps;};
     int getEatenCalories() const{return eatenCalories;};
-
+    const vector<Activity>& getActivities() const{return activities;}; 
 
 
     void setName(string newName){name = newName;};
@@ -77,6 +80,11 @@ private:
     void displayProfile() const;
 
     void addToGoals();
+
+    
+    void addActivity();
+
+    void viewProfile();
     //equality operator
 
     bool operator==(const Profile &user) const{
@@ -87,18 +95,22 @@ private:
 
 
 
-void createNewProfile(vector<Profile> &profiles, Profile &currentProfile);
+void createNewProfile(vector<Profile> &profiles, Profile *&currentProfile);
 
 void displayMenu();
 
-void addActivity(vector<Profile> &profiles, Profile& currentProfile);
-
-void viewProfile(const vector<Profile> &profiles, Profile& currentProfile);
-
-void removeProfile(vector<Profile> &profiles,Profile &currentProfile);
+void removeProfile(vector<Profile> &profiles,Profile *&currentProfile);
 
 void showUsers(const vector<Profile> &profiles) ;
 
-bool selectProfile(vector<Profile> &profiles, Profile &currentProfile);
+bool selectProfile(vector<Profile> &profiles, Profile *&currentProfile);
+
+void initializeProfiles( vector<Profile> &profiles);
+
+void saveProfiles(vector<Profile> &profiles);
+
+void initializeActivities(vector<Profile> &profiles);
+
+void saveActivities(vector<Profile> &profiles);
 
 extern vector<Profile> profiles;

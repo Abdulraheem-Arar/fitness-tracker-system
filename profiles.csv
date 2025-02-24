@@ -1,0 +1,5 @@
+id,name,age,weight,height,dailyStepGoal,dailyCalorieGoal,BMI,walkedSteps,eatenCalories
+2,d,1,1,1,1,1,1,1,1
+4,t,5,5,5,5,5,0.2,0,0
+5,abdo,1,2,2,2,2,0.5,0,0
+5,abdo,1,1,1,1,1,1,1,1

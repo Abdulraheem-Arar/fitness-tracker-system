@@ -2,14 +2,41 @@
 #include <iostream>
 #include <cmath>
 #include <algorithm>
+#include <fstream>
+#include <sstream>
 
 using namespace std;
 
 string chooseExercise();
 
-int Profile::counter = 1;
+int readFirstIntegerInLastLine();
 
-Profile::Profile(std::string name, int age, double weight, double height, int stepGoal, int calorieGoal){
+int Profile::counter = readFirstIntegerInLastLine();
+
+
+
+int readFirstIntegerInLastLine() {
+    ifstream file("profiles.csv", ios::in);
+    if (!file.is_open()) {
+        cerr << "Error opening file!" << endl;
+        return -1; // Return an error code
+    }
+
+    string line;
+    int firstInteger = 0; // Default value in case no integer is found
+    
+    // Read through the file line by line
+    while (getline(file, line)) {
+        stringstream ss(line);
+        ss >> firstInteger; // Extract the first integer from the current line
+    }
+
+    file.close();
+    return firstInteger;
+}
+
+
+Profile::Profile(std::string name, int age, double weight, double height, int stepGoal, int calorieGoal,int walkedSteps, int eatenCalories){
     this->id = counter++; 
     this->name = name; 
     this->age = age;
@@ -18,8 +45,21 @@ Profile::Profile(std::string name, int age, double weight, double height, int st
     this->dailyStepGoal = stepGoal;
     this->dailyCalorieGoal = calorieGoal;
     this->BMI = calculateBMI();
-    this->walkedSteps = 0;
-    this->eatenCalories = 0;
+    this->walkedSteps = walkedSteps;
+    this->eatenCalories = eatenCalories;
+};
+
+Profile::Profile(int id,string name,int age,double weight, double height, int stepGoal, int calorieGoal, int walkedSteps, int eatenCalories){
+     this->id = id; 
+    this->name = name; 
+    this->age = age;
+    this->weight = weight;
+    this->height = height;
+    this->dailyStepGoal = stepGoal;
+    this->dailyCalorieGoal = calorieGoal;
+    this->BMI = calculateBMI();
+    this->walkedSteps = walkedSteps;
+    this->eatenCalories = eatenCalories;
 };
 
 double Profile::calculateBMI() const{
@@ -28,10 +68,9 @@ double Profile::calculateBMI() const{
 
 void Profile::addActivity(string type, double duration){
     activities.push_back(Activity(this->id,type, duration));
-
 } 
 
- void Profile::displayProfile() const{
+void Profile::displayProfile() const{
         cout << "User: " << name << ", Age: " << age << ", Weight: " << weight << " kg" << ", BMI: " << BMI << endl;
         cout << "Activity History:\n";
         for (int i = 0; i < activities.size(); i++) {
@@ -47,27 +86,16 @@ void Activity::displayActivity() const{
 }
 
 double Activity::calculateCaloriesBurned(string activity, double time){
-     int activityIndex =0;
+     double caloriesPerMinute = 0.0;
 
-    if (activity == "Weightlifting") activityIndex = 1;
-    else if (activity == "Running") activityIndex = 2;
-    else if (activity == "Biking") activityIndex = 3;
-    else if (activity == "Swimming") activityIndex = 4;
-    else if (activity == "Walking") activityIndex = 5;
-    else if (activity == "Exit") activityIndex = 6;
+    if (activity == "Weightlifting") caloriesPerMinute = 108/30;
+    else if (activity == "Running") caloriesPerMinute = 288/30;
+    else if (activity == "Biking") caloriesPerMinute = 288/30;
+    else if (activity == "Swimming") caloriesPerMinute = 216/30;
+    else if (activity == "Walking") caloriesPerMinute = 133/30;
+    else return 0.0; // If no activity matches, return 0
 
-    // I make the assumption here that the person weighs 155 pounds
-    double caloriesPerMinute;
-    switch (activityIndex) {
-        case 1: caloriesPerMinute = 108/30; break;  // Weightlifting
-        case 2: caloriesPerMinute = 288/30; break; // Running
-        case 3: caloriesPerMinute = 288/30; break;  // Biking
-        case 4: caloriesPerMinute = 216/30; break; // Swimming
-        case 5: caloriesPerMinute = 133/30; break;  // Walking
-        default: return 0.0;
-    }
-
-        return caloriesPerMinute*time;
+    return caloriesPerMinute * time;
     
 }
 
@@ -84,85 +112,56 @@ void Profile::addToGoals(){
         cout << "you are currently " << ((float)eatenCalories/(float)dailyCalorieGoal)*100 << "% through your daily calorie intake goal" << endl;
 }
 
-bool selectProfile(vector<Profile> &profiles, Profile &currentProfile){
-    int choice;
+bool selectProfile(vector<Profile> &profiles, Profile *&currentProfile){
+    int choice = 0;
     if (profiles.empty()) {
         cout << "No profiles available to select.\n";
         return false;
     }
-    cout << "enter 1 if you wish to select this profile -" << currentProfile.getName() << "- otherwise enter any other integer: " ;
-    cin >> choice ;
+    if (currentProfile!=nullptr){
+        cout << "enter 1 if you wish to select this profile -" << currentProfile->getName() << "- otherwise enter any other integer: " ;
+        cin >> choice ;
+    } else {
+        showUsers(profiles);
+        string name;
+        cout << "\nwhat is the profile you want to select?\n";
+        cin >> name;
+        for(int i = 0;i< profiles.size();i++){
+            if (profiles[i].getName() == name){
+                currentProfile = &profiles[i];
+                cout << "you have selected " << currentProfile->getName() << " as your current user" << endl;
+                return true;
+            }
+        }
+    }
     if (choice != 1 ){
         string name;
         cout << "\nwhat is the profile you want to select?\n";
         cin >> name;
         for(int i = 0;i< profiles.size();i++){
             if (profiles[i].getName() == name){
-                currentProfile = profiles[i];
-                cout << "you have selected " << currentProfile.getName() << " as your current user" << endl;
+                currentProfile = &profiles[i];
+                cout << "you have selected " << currentProfile->getName() << " as your current user" << endl;
                 return true;
             }
         }
+    }else if (choice ==1) {
+        return true;
+    } else if (choice ==0){
+        cout << "could not find the profile you were looking for" << endl;
+        return false;
     }
-    return true;
+    cout << "could not find the profile you were looking for" << endl;
+        return false;
 }
 
-void viewProfile(const vector<Profile> &profiles,Profile &currentProfile){
+void Profile::addActivity(){
     string name;
-    int choice;
-    if (profiles.size() == 0){
-        cout << "you must have a profile to view a profile." << endl ;
-        return;
-    }
-    cout << "enter 1 if you wish to view this profile -" << currentProfile.getName() << "- otherwise enter any other integer: " ;
-    cin >> choice ;
-    if (choice == 1 ){
-        currentProfile.displayProfile();
-    } else{
-    cout << "\nwhat is the profile you want to view\n";
-    cin >> name;
-    
-        for(int i = 0;i< profiles.size();i++){
-            if (profiles[i].getName() == name){
-             profiles[i].displayProfile();
-             currentProfile = profiles[i];
-            }
-       
-        }
-         cout << "your current profile is now set to the profile you viewed" << endl;
-    }
-    
-    
-}
-
-void addActivity(vector<Profile> &profiles, Profile &currentProfile){
-    string name, activity;
     int duration;
-    int choice; 
-    if (profiles.size() == 0){
-        cout << "you must have a profile to add an activity." << endl ;
-        return;
-    }
-    cout << "enter 1 if you wish to make changes to this profile -" << currentProfile.getName() << "- otherwise enter any other integer: " ;
-    cin >> choice ;
-    if (choice ==1){
-        activity = chooseExercise();
-        cout << "for how many minutes were you performing the activity?\n";
-        cin >> duration;
-        currentProfile.addActivity(activity,duration);
-    } else {
-        cout << "\nwhat is the profile you want to add an activity to?\n";
-        cin >> name;
-        activity = chooseExercise();
-        cout << "for how long were you performing the activity?\n";
-        cin >> duration;
-        for(int i = 0;i< profiles.size();i++){
-            if (profiles[i].getName() == name){
-                profiles[i].addActivity(activity,duration);
-            }
-        }
-    }
-    
+    name = chooseExercise();
+    cout << "for how many minutes were you performing the activity?\n";
+    cin >> duration;
+    this->addActivity(name,duration);  
 }
 
 void displayMenu(){
@@ -176,25 +175,28 @@ void displayMenu(){
         cout << "7. exit \n";
 }
 
-void createNewProfile(vector<Profile> &profiles, Profile &currentProfile){
-                string name;
-                int age, stepGoal, calorieGoal;
-                double weight,height;
-                cout << "\nwhat is your name:\n";
-                cin >> name;
-                cout << "what is your age:\n";
-                cin >> age;
-                cout << "what is your weight in kilograms(kg):\n";
-                cin >> weight;
-                cout << "what is your height in meters(m):\n";
-                cin >> height;
-                cout << "what is your daily step goal:\n";
-                cin >> stepGoal;
-                cout << "what is your daily calorie goal:\n";
-                cin >> calorieGoal;
-                profiles.push_back(Profile(name,age,weight,height,stepGoal,calorieGoal));
-                currentProfile = profiles[profiles.size()-1];
+void createNewProfile(vector<Profile> &profiles, Profile *&currentProfile){
+    string name;
+    int age, stepGoal, calorieGoal;
+    double weight, height;
+    
+    cout << "\nwhat is your name:\n";
+    cin >> name;
+    cout << "what is your age:\n";
+    cin >> age;
+    cout << "what is your weight in kilograms(kg):\n";
+    cin >> weight;
+    cout << "what is your height in meters(m):\n";
+    cin >> height;
+    cout << "what is your daily step goal:\n";
+    cin >> stepGoal;
+    cout << "what is your daily calorie goal:\n";
+    cin >> calorieGoal;
+    
+    profiles.push_back(Profile(name, age, weight, height, stepGoal, calorieGoal,0,0));
+    currentProfile = &profiles[profiles.size() - 1];
 }
+
 
 
 string chooseExercise() {
@@ -206,11 +208,11 @@ string chooseExercise() {
     cout << "5. Walking\n";
 
     int choice;
-    cout << "Enter your choice (1-6): ";
+    cout << "Enter your choice (1-5): ";
     cin >> choice;
 
     
-    while (choice < 1 || choice > 6) {
+    while (choice < 1 || choice > 5) {
         cout << "Invalid choice. Please enter a number between 1 and 6: ";
         cin >> choice;
     }
@@ -226,17 +228,34 @@ string chooseExercise() {
     return "invalid";
 }
 
-void removeProfile(vector<Profile> &profiles, Profile &currentProfile){
+void removeProfile(vector<Profile> &profiles, Profile *&currentProfile){
     if (profiles.empty()) {
         cout << "No profiles available to remove.\n";
         return;
     }
 
     int choice;
-    cout << "enter 1 if you wish to remove this profile -" << currentProfile.getName() << "- otherwise enter any other integer: " ;
-    cin >> choice ;
+    if (currentProfile !=nullptr){
+        cout << "enter 1 if you wish to remove this profile -" << currentProfile->getName() << "- otherwise enter any other integer: " ;
+        cin >> choice ;
+    } else{
+        showUsers(profiles);
+        string name;
+        cout << "\nwhat is the profile you want to remove?\n";
+        cin >> name;
+        bool found = false;
+        for(int i = 0;i< profiles.size();i++){
+            if (profiles[i].getName() == name){
+                profiles.erase(profiles.begin() + i);
+                found = true;
+            }
+        }
+        if (!found){
+            cout << "no profile found which matches the name you provided" << endl;
+        }
+    }
     if (choice ==1){
-        auto it = std::find(profiles.begin(), profiles.end(), currentProfile);
+        auto it = std::find(profiles.begin(), profiles.end(), *currentProfile);
         if (it != profiles.end()) {
             profiles.erase(it);
         }
@@ -244,10 +263,15 @@ void removeProfile(vector<Profile> &profiles, Profile &currentProfile){
         string name;
         cout << "\nwhat is the profile you want to remove?\n";
         cin >> name;
+        bool found = false;
         for(int i = 0;i< profiles.size();i++){
             if (profiles[i].getName() == name){
                 profiles.erase(profiles.begin() + i);
+                found = true;
             }
+        }
+        if (!found){
+            cout << "no profile found which matches the name you provided" << endl;
         }
     }
 }
@@ -264,4 +288,154 @@ void showUsers(const vector<Profile> &profiles) {
     cout << endl;
 }
 
+void initializeProfiles( vector<Profile> &profiles){
+    ifstream file("profiles.csv", ios::in);
+    if (!file.is_open()) {
+        cerr << "Error opening file!" << endl;
+        return ; // Return an error code
+    }
+
+    string line;
+   
+    // Skip the first line (header)
+    getline(file, line);
+
+    while (getline(file, line)) {
+        stringstream ss(line);
+        string field;
+
+        string name;
+        int id, age, stepGoal, calorieGoal, walkedSteps, eatenCalories;
+        double weight, height;
+
+        // Read each field separated by commas and store them in appropriate variables
+        getline(ss, field, ',');  
+        id = stoi(field); // Convert to integer
+        
+        getline(ss, name, ','); 
+        
+        getline(ss, field, ',');  
+        age = stoi(field);
+        
+        getline(ss, field, ',');  
+        weight = stod(field);
+        
+        getline(ss, field, ',');  
+        height = stod(field);
+        
+        getline(ss, field, ',');  
+        stepGoal = stoi(field);
+        
+        getline(ss, field, ',');  
+        calorieGoal = stoi(field);
+        
+        getline(ss, field, ',');  
+        walkedSteps = stoi(field);
+        
+        getline(ss, field, ',');  
+        eatenCalories = stoi(field);
+
+        // Create a new Profile object and append it to the profiles vector
+        profiles.push_back(Profile(id, name, age, weight, height, stepGoal, calorieGoal, walkedSteps, eatenCalories));
+    }
+
+    file.close();
+    return;
+}
+
+void saveProfiles(vector<Profile> &profiles) {
+    ofstream file("profiles.csv", ios::out);  // Open file in overwrite mode
+
+    if (!file.is_open()) {
+        cerr << "Error opening file!" << endl;
+        return;
+    }
+
+    // Write the first line (header)
+    file << "id,name,age,weight,height,dailyStepGoal,dailyCalorieGoal,BMI,walkedSteps,eatenCalories\n";
+
+    // Iterate through the profiles vector and write each profile to the file
+    for (const auto &profile : profiles) {
+        file << profile.getID() << ","
+              << profile.getName() << ","
+             << profile.getAge() << ","
+             << profile.getWeight() << ","
+             << profile.getHeight() << ","
+             << profile.getStepGoal() << ","
+             << profile.getCalorieGoal() << ","
+             << profile.getBMI() << ","
+             << profile.getWalkedSteps() << ","
+             << profile.getEatenCalories() << "\n";
+    }
+
+    file.close();
+}
+
+void initializeActivities(vector<Profile> &profiles){
+    ifstream file("activities.csv", ios::in);
+    if (!file.is_open()) {
+        cerr << "Error opening file!" << endl;
+        return ; // Return an error code
+    }
+
+    string line;
+   
+    // Skip the first line (header)
+    getline(file, line);
+
+    while (getline(file, line)) {
+        stringstream ss(line);
+        string field;
+
+        string activityType;
+        int id;
+        double duration, caloriesBurned;
+
+        // Read each field separated by commas and store them in appropriate variables
+        getline(ss, field, ',');  
+        id = stoi(field); // Convert to integer
+        
+        getline(ss, activityType, ','); 
+        
+        getline(ss, field, ',');  
+        duration = stod(field);
+        
+        getline(ss, field, ',');  
+        caloriesBurned = stod(field);
+
+        for (auto &profile : profiles){
+            if (profile.getID() == id){
+                profile.addActivity(activityType,duration);
+            }
+        }
+    }
+
+    file.close();
+    return;
+}
+
+
+void saveActivities(vector<Profile> &profiles) {
+     ofstream file("activities.csv", ios::out);  // Open file in overwrite mode
+
+    if (!file.is_open()) {
+        cerr << "Error opening file!" << endl;
+        return;
+    }
+
+    // Write the first line (header)
+    file << "userID,activityType,duration,caloriesBurned\n";
+    
+    // Iterate through the profiles vector and write each profile to the file
+    for (const auto &profile : profiles) {
+       for (const auto &activity : profile.getActivities()){
+            file << activity.getUserID() << ","
+             << activity.getActivityType()<< ","
+             << activity.getDuration() << ","
+             << activity.getCaloriesBurned() << '\n';
+       }
+    }
+
+    file.close();
+}
 
