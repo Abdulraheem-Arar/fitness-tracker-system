@@ -430,9 +430,9 @@ void saveActivities(vector<Profile> &profiles) {
     for (const auto &profile : profiles) {
        for (const auto &activity : profile.getActivities()){
             file << activity.getUserID() << ","
-             << activity.getActivityType()<< ","
-             << activity.getDuration() << ","
-             << activity.getCaloriesBurned() << '\n';
+                 << activity.getActivityType()<< ","
+                 << activity.getDuration() << ","
+                 << activity.getCaloriesBurned() << '\n';
        }
     }
 

@@ -3,3 +3,6 @@ id,name,age,weight,height,dailyStepGoal,dailyCalorieGoal,BMI,walkedSteps,eatenCa
 4,t,5,5,5,5,5,0.2,0,0
 5,abdo,1,2,2,2,2,0.5,0,0
 5,abdo,1,1,1,1,1,1,1,1
+5,doody,20,74,1.78,500000000,3444355,23.3556,23,0
+5,dd,12,3,3,4,4,0.333333,0,0
+6,dana,32,90000,1.2,500000,344544444,62500,0,0

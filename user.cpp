@@ -5,17 +5,6 @@ Profile *currentProfile = nullptr;
 vector<Profile> profiles;
 
 int main(){
-//     Profile p1("John", 25, 70.0, 175.0, 10000, 2000, 5000, 1500);
-//     p1.addActivity();
-    
-//     cout << p1.getActivities().size()<< endl;
-// for (int i=0 ;i<p1.getActivities().size();i++){
-//     cout << "activity info"<< endl;
-//     cout << p1.getActivities()[i].getUserID()<< endl;
-//     cout << p1.getActivities()[i].getActivityType()<< endl;
-//     cout << p1.getActivities()[i].getDuration()<< endl;
-//     cout << p1.getActivities()[i].getCaloriesBurned()<< endl;
-// }
 
     initializeProfiles(profiles);
     initializeActivities(profiles);
