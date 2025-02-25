@@ -1,11 +1,11 @@
 #include <iostream>
 #include <vector>
-#include "activity.h"
+#include "activityTypes.h"
 
 using namespace std;
 
-class Profile{
-private:
+class Profile {
+    private:
     static int counter;
     int id;
     string name;
@@ -17,13 +17,20 @@ private:
     int dailyCalorieGoal;
     int walkedSteps;
     int eatenCalories;
-    vector<Activity> activities;
+    vector<Activity*> activities;
+
 
     public:
     Profile() : id(counter++), name(""), age(0), weight(0), height(0), BMI(0), dailyStepGoal(0), dailyCalorieGoal(0) , walkedSteps(0) , eatenCalories(0) {}
     Profile(string name, int age, double weight, double height, int stepGoal, int calorieGoal,int walkedSteps, int eatenCalories);
     Profile(int id,string name,int age,double weight, double height, int stepGoal, int calorieGoal, int walkedSteps, int eatenCalories);
 
+
+    ~Profile(){
+        for (auto activity : activities) {
+            delete activity;  // Free each dynamically allocated memory
+        }
+    }
     // Getters and Setters
     int getID() const {return id;};
     string getName() const {return name;};
@@ -35,7 +42,8 @@ private:
     int getCalorieGoal() const{return dailyCalorieGoal;};
     int getWalkedSteps() const{return walkedSteps;};
     int getEatenCalories() const{return eatenCalories;};
-    const vector<Activity>& getActivities() const{return activities;}; 
+    const vector<Activity*>& getActivities() const { return activities; }
+
 
 
     void setName(string newName){name = newName;};
