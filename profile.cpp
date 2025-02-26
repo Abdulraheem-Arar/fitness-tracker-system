@@ -8,7 +8,7 @@ using namespace std;
 
 int readFirstIntegerInLastLine();
 
-int Profile::counter = readFirstIntegerInLastLine();
+int Profile::counter = readFirstIntegerInLastLine() ;
 
 int readFirstIntegerInLastLine() {
     ifstream file("profiles.csv", ios::in);
@@ -27,22 +27,8 @@ int readFirstIntegerInLastLine() {
     }
 
     file.close();
-    return firstInteger;
+    return firstInteger + 1;
 }
-
-
-Profile::Profile(std::string name, int age, double weight, double height, int stepGoal, int calorieGoal,int walkedSteps, int eatenCalories){
-    this->id = counter++; 
-    this->name = name; 
-    this->age = age;
-    this->weight = weight;
-    this->height = height;
-    this->dailyStepGoal = stepGoal;
-    this->dailyCalorieGoal = calorieGoal;
-    this->BMI = calculateBMI();
-    this->walkedSteps = walkedSteps;
-    this->eatenCalories = eatenCalories;
-};
 
 Profile::Profile(int id,string name,int age,double weight, double height, int stepGoal, int calorieGoal, int walkedSteps, int eatenCalories){
     this->id = id; 

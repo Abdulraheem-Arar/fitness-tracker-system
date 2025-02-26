@@ -1,11 +1,10 @@
 #include "backend.h"
 #include <iostream>
 #include <algorithm>
-
+#include <cstdlib>  // For system()
+#include <thread>  // For std::this_thread::sleep_for
 
 using namespace std;
-
-
 
     void Utility::showUsers(const vector<Profile> &profiles) {
     cout << "the following are all the users stored: "<< endl;
@@ -17,7 +16,7 @@ using namespace std;
         
     }
     cout << endl;
-}
+    }
 
     bool Utility::selectProfile(vector<Profile> &profiles, Profile *&currentProfile){
     int choice = 0;
@@ -62,16 +61,6 @@ using namespace std;
         return false;
 }
 
-void Utility::displayMenu(){
-    cout << endl << "please choose one of the following options: \n" ;
-        cout << "1. create a new profile\n";
-        cout << "2. add progress to goals\n";
-        cout << "3. add a new activity\n";
-        cout << "4. view profile information\n";
-        cout << "5. remove profile\n";
-        cout << "6. list all profiles\n";
-        cout << "7. exit \n";
-}
 
 void Utility::createNewProfile(vector<Profile> &profiles, Profile *&currentProfile){
     string name;
@@ -90,9 +79,14 @@ void Utility::createNewProfile(vector<Profile> &profiles, Profile *&currentProfi
     cin >> stepGoal;
     cout << "what is your daily calorie goal:\n";
     cin >> calorieGoal;
+
+    if (age > 0 && weight > 0 && height > 0 && stepGoal > 0 && calorieGoal > 0) {
+        profiles.push_back(Profile(name, age, weight, height, stepGoal, calorieGoal,0,0));
+        currentProfile = &profiles.back();
+    } else {
+        cout << "one of your inputs was invalid" << endl;
+    }
     
-    profiles.push_back(Profile(name, age, weight, height, stepGoal, calorieGoal,0,0));
-    currentProfile = &profiles.back();
 }
 
 

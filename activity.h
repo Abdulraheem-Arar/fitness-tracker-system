@@ -15,10 +15,10 @@ class Activity {
 
     Activity(int ID, string type, double duration) : userID(ID), activityType(type), duration(duration){};
 
-    inline int getUserID() const{return userID;};
-    inline string getActivityType() const{return activityType;};
-    inline double getDuration() const{return duration;};
-    inline double getCaloriesBurned() const{return caloriesBurned;};
+    int getUserID() const{return userID;};
+    string getActivityType() const{return activityType;};
+    double getDuration() const{return duration;};
+    double getCaloriesBurned() const{return caloriesBurned;};
 
 
     virtual void displayActivity() const{
