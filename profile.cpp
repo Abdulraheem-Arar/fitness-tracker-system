@@ -1,4 +1,4 @@
-#include "header.h"
+#include "backend.h"
 #include <iostream>
 #include <cmath>
 #include <fstream>
@@ -101,13 +101,13 @@ void Profile::addToGoals(){
         cout << "you are currently " << ((float)eatenCalories/(float)dailyCalorieGoal)*100 << "% through your daily calorie intake goal" << endl;
 }
 
-string chooseExercise();
+string Utility::chooseExercise();
 
 
 void Profile::addActivity(){
     string name;
     int duration;
-    name = chooseExercise();
+    name = Utility::chooseExercise();
     cout << "for how many minutes were you performing the activity?\n";
     cin >> duration;
     this->addActivity(name,duration);  

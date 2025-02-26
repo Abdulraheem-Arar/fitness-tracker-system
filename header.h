@@ -4,7 +4,6 @@
 #include <vector>
 #include "profile.h"
 
-using namespace std;
 
 void createNewProfile(vector<Profile> &profiles, Profile *&currentProfile);
 

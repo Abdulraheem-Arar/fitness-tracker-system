@@ -32,17 +32,17 @@ class Profile {
         }
     }
     // Getters and Setters
-    int getID() const {return id;};
-    string getName() const {return name;};
-    int getAge() const {return age;};
-    double getWeight() const{return weight;};
-    double getHeight() const{return height;};
-    double getBMI() const {return BMI;};
-    int getStepGoal() const{return dailyStepGoal;};
-    int getCalorieGoal() const{return dailyCalorieGoal;};
-    int getWalkedSteps() const{return walkedSteps;};
-    int getEatenCalories() const{return eatenCalories;};
-    const vector<Activity*>& getActivities() const { return activities; }
+    inline int getID() const {return id;};
+    inline string getName() const {return name;};
+    inline int getAge() const {return age;};
+    inline double getWeight() const{return weight;};
+    inline double getHeight() const{return height;};
+    inline double getBMI() const {return BMI;};
+    inline int getStepGoal() const{return dailyStepGoal;};
+    inline int getCalorieGoal() const{return dailyCalorieGoal;};
+    inline int getWalkedSteps() const{return walkedSteps;};
+    inline int getEatenCalories() const{return eatenCalories;};
+    inline const vector<Activity*>& getActivities() const { return activities; }
 
 
 

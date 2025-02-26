@@ -1,4 +1,4 @@
-#include "header.h"
+#include "backend.h"
 #include <iostream>
 #include <algorithm>
 
@@ -6,7 +6,20 @@
 using namespace std;
 
 
-bool selectProfile(vector<Profile> &profiles, Profile *&currentProfile){
+
+    void Utility::showUsers(const vector<Profile> &profiles) {
+    cout << "the following are all the users stored: "<< endl;
+    for (int i = 0 ; i< profiles.size(); i++ ){
+        cout << profiles[i].getName() ;
+        if (i != profiles.size()-1){
+            cout << ", ";
+        }
+        
+    }
+    cout << endl;
+}
+
+    bool Utility::selectProfile(vector<Profile> &profiles, Profile *&currentProfile){
     int choice = 0;
     if (profiles.empty()) {
         cout << "No profiles available to select.\n";
@@ -16,7 +29,7 @@ bool selectProfile(vector<Profile> &profiles, Profile *&currentProfile){
         cout << "enter 1 if you wish to select this profile -" << currentProfile->getName() << "- otherwise enter any other integer: " ;
         cin >> choice ;
     } else {
-        showUsers(profiles);
+        Utility::showUsers(profiles);
         string name;
         cout << "\nwhat is the profile you want to select?\n";
         cin >> name;
@@ -49,7 +62,7 @@ bool selectProfile(vector<Profile> &profiles, Profile *&currentProfile){
         return false;
 }
 
-void displayMenu(){
+void Utility::displayMenu(){
     cout << endl << "please choose one of the following options: \n" ;
         cout << "1. create a new profile\n";
         cout << "2. add progress to goals\n";
@@ -60,7 +73,7 @@ void displayMenu(){
         cout << "7. exit \n";
 }
 
-void createNewProfile(vector<Profile> &profiles, Profile *&currentProfile){
+void Utility::createNewProfile(vector<Profile> &profiles, Profile *&currentProfile){
     string name;
     int age, stepGoal, calorieGoal;
     double weight, height;
@@ -84,7 +97,7 @@ void createNewProfile(vector<Profile> &profiles, Profile *&currentProfile){
 
 
 
-string chooseExercise() {
+string Utility::chooseExercise() {
     cout << "Choose an exercise:\n";
     cout << "1. Weightlifting\n";
     cout << "2. Running\n";
@@ -112,7 +125,7 @@ string chooseExercise() {
     return "invalid";
 }
 
-void removeProfile(vector<Profile> &profiles, Profile *&currentProfile){
+void Utility::removeProfile(vector<Profile> &profiles, Profile *&currentProfile){
     if (profiles.empty()) {
         cout << "No profiles available to remove.\n";
         return;
@@ -123,7 +136,7 @@ void removeProfile(vector<Profile> &profiles, Profile *&currentProfile){
         cout << "enter 1 if you wish to remove this profile -" << currentProfile->getName() << "- otherwise enter any other integer: " ;
         cin >> choice ;
     } else{
-        showUsers(profiles);
+        Utility::showUsers(profiles);
         string name;
         cout << "\nwhat is the profile you want to remove?\n";
         cin >> name;
@@ -161,15 +174,7 @@ void removeProfile(vector<Profile> &profiles, Profile *&currentProfile){
     }
 }
 
-void showUsers(const vector<Profile> &profiles) {
-    cout << "the following are all the users stored: "<< endl;
-    for (int i = 0 ; i< profiles.size(); i++ ){
-        cout << profiles[i].getName() ;
-        if (i != profiles.size()-1){
-            cout << ", ";
-        }
-        
-    }
-    cout << endl;
-}
+
+
+
 

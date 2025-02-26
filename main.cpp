@@ -1,4 +1,4 @@
-#include "header.h"
+#include "backend.h"
 
 
 Profile *currentProfile = nullptr;
@@ -17,32 +17,32 @@ int main(){
     int choice = 0;
 
     while (choice!=7){
-        displayMenu();
+        Utility::displayMenu();
         cin >> choice;
         switch(choice){
             case 1:
-                createNewProfile(profiles, currentProfile);
+                Utility::createNewProfile(profiles, currentProfile);
                 break;
             case 2:
                 bool isfound1;
-                isfound1 = selectProfile(profiles,currentProfile);
+                isfound1 = Utility::selectProfile(profiles,currentProfile);
                 if (isfound1) {currentProfile->addToGoals();};
                 break;
             case 3:
                 bool isfound2;
-                isfound2 = selectProfile(profiles,currentProfile);
+                isfound2 = Utility::selectProfile(profiles,currentProfile);
                 if (isfound2) {currentProfile->addActivity();};
                 break;
             case 4: 
                 bool isfound3;
-                isfound3 = selectProfile(profiles,currentProfile);
+                isfound3 = Utility::selectProfile(profiles,currentProfile);
                 if (isfound3) {currentProfile->displayProfile();};
                 break;
             case 5:
-                removeProfile(profiles,currentProfile);
+                Utility::removeProfile(profiles,currentProfile);
                 break;
             case 6:
-                showUsers(profiles);
+                Utility::showUsers(profiles);
                 break;
             case 7:
                 cout << "exiting the program" << endl;
