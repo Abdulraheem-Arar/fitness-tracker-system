@@ -4,12 +4,14 @@
 
 using namespace std;
 
+// utility namespace to organize functions together
 namespace Utility {
-
+    
     void showUsers(const vector<Profile> &profiles);
 
     bool selectProfile(vector<Profile> &profiles, Profile *&currentProfile);
 
+    // function to diplay the main menu for the program
     inline void displayMenu(){
     cout << endl << "please choose one of the following options: \n" ;
         cout << "1. create a new profile\n";

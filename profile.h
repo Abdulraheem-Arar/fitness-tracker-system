@@ -21,7 +21,8 @@ class Profile {
 
 
     public:
-    Profile() : id(counter++), name(""), age(0), weight(0), height(0), BMI(0), dailyStepGoal(0), dailyCalorieGoal(0) , walkedSteps(0) , eatenCalories(0) {}
+    //consturctors , one defualt and one used for profiles taken from files a and one for newly created profiles while program is running
+    Profile() : id(counter++), name(""), age(0), weight(0), height(0), BMI(0), dailyStepGoal(0), dailyCalorieGoal(0) , walkedSteps(0) , eatenCalories(0) {}; 
     Profile(string name, int age, double weight, double height, int stepGoal, int calorieGoal,int walkedSteps, int eatenCalories): Profile(counter++, name, age, weight, height, stepGoal, calorieGoal, walkedSteps, eatenCalories) {};
     Profile(int id,string name,int age,double weight, double height, int stepGoal, int calorieGoal, int walkedSteps, int eatenCalories);
 
@@ -31,6 +32,7 @@ class Profile {
             delete activity;  // Free each dynamically allocated memory
         }
     }
+
     // Getters and Setters
     static int getCounter() {return counter;}
     int getID() const {return id;};
@@ -46,7 +48,7 @@ class Profile {
     const vector<Activity*>& getActivities() const { return activities; }
 
 
-
+    // setters were not used in the actual program but I included them anyways for better practice
     void setName(string newName){name = newName;};
     void setAge(int newAge){age = newAge;};
     void setWeight(double newWeight){weight = newWeight;};
@@ -67,8 +69,8 @@ class Profile {
     void addActivity();
     
     //equality operator
-
     bool operator==(const Profile &user) const{
+        //checks if the id matches the compared profile id
         return this->id == user.getID();
     }
 
