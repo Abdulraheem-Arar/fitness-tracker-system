@@ -54,7 +54,7 @@ int main(){
                 break;
             case 7:
                 //exits the program
-                cout << "exiting the program" << endl;
+                cout << "data saved to profiles.csv and activities.csv" << endl;
                 break;
             default:
                 //validates the input

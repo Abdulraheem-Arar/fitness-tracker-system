@@ -76,7 +76,7 @@ void Profile::addActivity(string type, double duration){
 void Profile::displayProfile() const{
         cout << "User: " << name << ", Age: " << age << ", Weight: " << weight << " kg" << ", BMI: " << BMI << endl;
         cout << "Activity History:\n";
-        //iterates through all of the activities and displays each one's information 
+        //iterates through all of the activities and displays each ones information 
         for (int i = 0; i < activities.size(); i++) {
             activities[i]->displayActivity();
         }
@@ -109,4 +109,5 @@ void Profile::addActivity(){
     cout << "for how many minutes were you performing the activity?\n";
     cin >> duration;
     this->addActivity(name,duration);  
+    cout << "the activity has been added" << endl;
 }

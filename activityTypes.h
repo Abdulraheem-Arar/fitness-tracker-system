@@ -14,7 +14,8 @@ public:
 
     // overrided function that displays the activity specifically for running 
     void displayActivity() const override {
-        cout << "Running for " << duration << " minutes and burned " << caloriesBurned << " calories." << endl;
+        Activity::displayActivity();
+        cout << "Running at 5mph for " << duration << " minutes and burned " << caloriesBurned << " calories." << endl << endl;
     }
 };
 
@@ -33,7 +34,8 @@ public:
 
     // overrided function that displays the activity specifically for weightlifting
     void displayActivity() const override {
-        cout << "Weightlifting for " << duration << " minutes and burned " << caloriesBurned << " calories." << endl;
+        Activity::displayActivity();
+        cout << "Weightlifting (general) for " << duration << " minutes and burned " << caloriesBurned << " calories." << endl << endl;
     }
 };
 
@@ -52,7 +54,8 @@ public:
 
     // overrided function that displays the activity specifically for biking
     void displayActivity() const override {
-        cout << "Biking for " << duration << " minutes and burned " << caloriesBurned << " calories." << endl;
+        Activity::displayActivity();
+        cout << "Biking at 12-13.9 mph for " << duration << " minutes and burned " << caloriesBurned << " calories." << endl << endl;
     }
 };
 
@@ -66,12 +69,13 @@ public:
 
     // function to calculate burned calories specifically for swimming
     double calculateCaloriesBurned() {
-        return duration * 216 / 30; 
+        return duration * 360 / 30; 
     }
 
     // overrided function that displays the activity specifically for swimming
     void displayActivity() const override {
-        cout << "Swimming for " << duration << " minutes and burned " << caloriesBurned << " calories." << endl;
+        Activity::displayActivity();
+        cout << "Swimming laps vigourously for " << duration << " minutes and burned " << caloriesBurned << " calories." << endl << endl;
     }
 };
 
@@ -90,6 +94,7 @@ public:
 
     // overrided function that displays the activity specifically for walking
     void displayActivity() const override {
-        cout << "Walking for " << duration << " minutes and burned " << caloriesBurned << " calories." << endl;
+        Activity::displayActivity();
+        cout << "Walking at 3.5mph for " << duration << " minutes and burned " << caloriesBurned << " calories." << endl << endl;
     }
 };

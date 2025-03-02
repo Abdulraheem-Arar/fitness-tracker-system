@@ -1,10 +1,10 @@
-#include "header.h"
+#include "saving.h"
 #include <fstream>
 #include <sstream>
 
 
 
-void fileSystem::initializeProfiles( vector<Profile> &profiles){
+void fileSystem::initializeProfiles(vector<Profile> &profiles){
     // reads from profile.csv 
     ifstream file("profiles.csv", ios::in);
     if (!file.is_open()) {

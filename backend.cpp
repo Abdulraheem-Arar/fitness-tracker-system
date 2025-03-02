@@ -3,8 +3,14 @@
 #include <algorithm>
 #include <cstdlib>  // For system()
 #include <thread>  // For std::this_thread::sleep_for
+#include <string>
 
 using namespace std;
+
+    bool Utility::isValidName(string name) { //checks if name inputted is valid
+        name.erase(remove_if(name.begin(), name.end(), ::isspace), name.end()); // removes all the spaces from the name string
+        return !name.empty();
+    }
 
     // function to display all users in the profiles vector
     void Utility::showUsers(const vector<Profile> &profiles) {
@@ -37,7 +43,12 @@ using namespace std;
         Utility::showUsers(profiles);
         string name;
         cout << "\nwhat is the profile you want to select?\n";
-        cin >> name;
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');  // this clears the whole line.
+        getline(cin, name);
+        while (!isValidName(name)) {
+             cout << "Name cannot be empty or just spaces. Please enter a valid name:\n";
+            getline(cin, name);
+        }
         for(int i = 0;i< profiles.size();i++){
             if (profiles[i].getName() == name){
                 currentProfile = &profiles[i];
@@ -45,12 +56,20 @@ using namespace std;
                 return true;
             }
         }
+        cout << "could not find the profile you were looking for" << endl;
+        // returns false when the profile was not found
+        return false;
     }
     //if the user selects to view another profile show them all the users and then ask for a name and search the profiles vector for the corresponding name
     if (choice != 1 ){
         string name;
         cout << "\nwhat is the profile you want to select?\n";
-        cin >> name;
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');  // this clears the whole line.
+        getline(cin, name);
+        while (!isValidName(name)) {
+            cout << "Name cannot be empty or just spaces. Please enter a valid name:\n";
+            getline(cin, name);
+        }
         for(int i = 0;i< profiles.size();i++){
             if (profiles[i].getName() == name){
                 currentProfile = &profiles[i];
@@ -79,8 +98,13 @@ void Utility::createNewProfile(vector<Profile> &profiles, Profile *&currentProfi
     int age, stepGoal, calorieGoal;
     double weight, height;
     
-    cout << "\nwhat is your name:\n";
-    cin >> name;
+    cout << "\nWhat is your name:\n";
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');  // this clears the whole line.
+    getline(cin, name);
+    while (!isValidName(name)) {
+        cout << "Name cannot be empty or just spaces. Please enter a valid name:\n";
+        getline(cin, name);
+    }   
     cout << "what is your age:\n";
     cin >> age;
     cout << "what is your weight in kilograms(kg):\n";
@@ -150,7 +174,12 @@ void Utility::removeProfile(vector<Profile> &profiles, Profile *&currentProfile)
         Utility::showUsers(profiles);
         string name;
         cout << "\nwhat is the profile you want to remove?\n";
-        cin >> name;
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');  // this clears the whole line.
+        getline(cin, name); 
+        while (!isValidName(name)) {
+            cout << "Name cannot be empty or just spaces. Please enter a valid name:\n";
+            getline(cin, name);
+        }
         bool found = false;
         //iterate through the profiles vector and find the matching profile then remove that one from the profiles vector
         for(int i = 0;i< profiles.size();i++){
@@ -158,12 +187,14 @@ void Utility::removeProfile(vector<Profile> &profiles, Profile *&currentProfile)
                 profiles.erase(profiles.begin() + i);
                 currentProfile = nullptr;
                 found = true;
+                cout << "the profile has been removed" << endl;
             }
         }
         // if no matching profile is found let the user know 
         if (!found){
             cout << "no profile found which matches the name you provided" << endl;
         }
+        return;
     }
     // if the user chooses to delete their current profile
     if (choice ==1 ){
@@ -172,18 +203,25 @@ void Utility::removeProfile(vector<Profile> &profiles, Profile *&currentProfile)
         // if the current profile was found then it is erased
         if (it != profiles.end()) {
             profiles.erase(it);
+            cout << "the profile has been removed" << endl;
         }
     } else {
         // if the user chooses to delete a different profile then they will be asked for the name of the profile
         string name;
         cout << "\nwhat is the profile you want to remove?\n";
-        cin >> name;
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');  // this clears the whole line.
+        getline(cin, name);
+        while (!isValidName(name)) {
+             cout << "Name cannot be empty or just spaces. Please enter a valid name:\n";
+             getline(cin, name);
+        }
         bool found = false;
         // iterates through the profiles vector and erases the chosen profile
         for(int i = 0;i< profiles.size();i++){
             if (profiles[i].getName() == name){
                 profiles.erase(profiles.begin() + i);
                 found = true;
+                cout << "the profile has been removed" << endl;
             }
         }
            // if no matching profile is found let the user know 

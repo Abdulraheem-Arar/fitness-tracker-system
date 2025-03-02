@@ -22,6 +22,7 @@ class Activity {
     double getDuration() const{return duration;};
     double getCaloriesBurned() const{return caloriesBurned;};
 
+
     // function to display the activity information (virtual as it is overriden in the inherited classes)
     virtual void displayActivity() const{ 
         cout << "Activity: " << activityType 
